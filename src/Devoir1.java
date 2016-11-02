@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 public class Devoir1 
 {
-
 	public static void main(String[] args) 
 	{
 		if (args.length == 1)
@@ -46,7 +45,6 @@ public class Devoir1
 			e.printStackTrace();
 		}
 	}
-
 }
 
 

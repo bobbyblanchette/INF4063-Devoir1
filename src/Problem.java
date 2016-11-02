@@ -15,25 +15,14 @@ public class Problem
 		solve();
 	}
 	
-	private int countOccurances(List<Integer> array, int n)
-	{
-		int result = 0;
-		for (int val : array)
-		{
-			if (val == n)
-				result++;
-		}
-		return result;
-	}
-	
-	public void printOptimalResult()
+	private void printOptimalResult()
 	{
 		Combination result = solutions.get(0);
-		System.out.println(result.array.size() + " pièces utilisées");
+		System.out.println(result.count() + " pièces utilisées");
 		for (int j = 0; j < coins.size(); j++)
 		{
-			if (result.array.contains(coins.get(j)))
-				System.out.print(countOccurances(result.array, coins.get(j)) + " fois " + coins.get(j) + ", ");
+			if (result.coinFrequency[j] > 0)
+				System.out.print(result.coinFrequency[j] + " fois " + coins.get(j) + ", ");
 		}
 		System.out.println();
 	}
@@ -50,7 +39,7 @@ public class Problem
 			this.solutions.add(comb);
 	}
 	
-	public void solve()
+	private void solve()
 	{
 		List<Combination> combTab = new ArrayList<Combination>();
 		for (int i = 0; i < coins.size(); i++)
@@ -107,14 +96,13 @@ public class Problem
 	{
 		int sum;
 		int maxIndex;
-		List<Integer> array;
+		int[] coinFrequency;
 				
 		public Combination(int coinIndex)
 		{
-			this.array = new ArrayList<Integer>();
-			int coin = coins.get(coinIndex);
-			this.array.add(coin);
-			this.sum = coin;
+			this.coinFrequency = new int[coins.size()];
+			this.coinFrequency[coinIndex]++;
+			this.sum = coins.get(coinIndex);
 			this.maxIndex = coinIndex;
 		}
 		
@@ -122,16 +110,21 @@ public class Problem
 		{
 			this.sum = comb.sum;
 			this.maxIndex = comb.maxIndex;
-			this.array = new ArrayList<Integer>(comb.array);
+			this.coinFrequency = comb.coinFrequency.clone();
 		}
 		
 		public void add(int coinIndex){
-			int coin = coins.get(coinIndex);
-			this.array.add(coin);
-			this.sum += coin;
+			this.coinFrequency[coinIndex]++;
+			this.sum += coins.get(coinIndex);
 			if(coinIndex > this.maxIndex)
 				this.maxIndex = coinIndex;
-			
+		}
+		
+		public int count(){
+			int total = 0;
+			for (int i : coinFrequency)
+				total += i;
+			return total;
 		}
 	}
 }
