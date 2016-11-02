@@ -4,10 +4,10 @@ import java.util.List;
 public class Problem 
 {
 	int total;
-	List<Integer> coins;
+	List<Byte> coins;
 	List<Combination> solutions;
 	
-	public Problem(List<Integer> coins, int total, int pbNumber)
+	public Problem(List<Byte> coins, int total, int pbNumber)
 	{
 		this.coins = coins;
 		this.total = total;
@@ -15,14 +15,12 @@ public class Problem
 		solve();
 	}
 	
-	private int countOccurances(List<Integer> array, int n)
+	private int countOccurances(List<Byte> array, int n)
 	{
 		int result = 0;
 		for (int val : array)
-		{
 			if (val == n)
 				result++;
-		}
 		return result;
 	}
 	
@@ -31,10 +29,8 @@ public class Problem
 		Combination result = solutions.get(0);
 		System.out.println(result.array.size() + " pièces utilisées");
 		for (int j = 0; j < coins.size(); j++)
-		{
 			if (result.array.contains(coins.get(j)))
 				System.out.print(countOccurances(result.array, coins.get(j)) + " fois " + coins.get(j) + ", ");
-		}
 		System.out.println();
 	}
 	
@@ -83,9 +79,7 @@ public class Problem
 					else
 					{
 						if (tempComb.sum == total)
-						{
 							this.addToSolutions(tempComb);
-						}
 						if(tempComb.sum + coins.get(tempComb.maxIndex) <= total)
 							nextCombTab.add(tempComb);
 					}					
@@ -94,25 +88,21 @@ public class Problem
 			combTab = nextCombTab;
 		}
 		if (this.solutions == null)
-		{
 			System.out.println("Impossible de former la somme de " + total);
-		}
 		else
-		{
 			System.out.println(this.solutions.size() + " possibilités différentes de former la somme de " + total);
-		}	
 	}
 	
 	private class Combination 
 	{
 		int sum;
 		int maxIndex;
-		List<Integer> array;
+		List<Byte> array;
 				
 		public Combination(int coinIndex)
 		{
-			this.array = new ArrayList<Integer>();
-			int coin = coins.get(coinIndex);
+			this.array = new ArrayList<Byte>();
+			byte coin = coins.get(coinIndex);
 			this.array.add(coin);
 			this.sum = coin;
 			this.maxIndex = coinIndex;
@@ -122,14 +112,15 @@ public class Problem
 		{
 			this.sum = comb.sum;
 			this.maxIndex = comb.maxIndex;
-			this.array = new ArrayList<Integer>(comb.array);
+			this.array = new ArrayList<Byte>(comb.array);
 		}
 		
-		public void add(int coinIndex){
-			int coin = coins.get(coinIndex);
+		public void add(int coinIndex)
+		{
+			byte coin = coins.get(coinIndex);
 			this.array.add(coin);
 			this.sum += coin;
-			if(coinIndex > this.maxIndex)
+			if (coinIndex > this.maxIndex)
 				this.maxIndex = coinIndex;
 			
 		}
